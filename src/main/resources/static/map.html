@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    
+    <style>
+        #map { height: 600px; width: 100%; }
+    </style>
+	
+</head>
+<body>
+    <div id="controls">
+        From: <input type="text" id="from" placeholder="Airport code">
+        To: <input type="text" id="to" placeholder="Airport code">
+        <button onclick="plotRoute()">Plot Route</button>
+    </div>
+    <div id="map"></div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <script>
+        const map = L.map('map').setView([40, -95], 2.6);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© Mateo Mildebrandts Code'
+        }).addTo(map);
+
+        let routeLayer;
+
+        async function getAirportCoords(code) {
+            const response = await fetch(`/airport?code=${code}`);
+            const data = await response.json();
+            if (data.error) throw new Error(data.error);
+            return [data.latitude, data.longitude];
+        }
+
+        async function plotRoute() {
+            const fromCode = document.getElementById('from').value.trim().toUpperCase();
+            const toCode = document.getElementById('to').value.trim().toUpperCase();
+
+                const fromCoords = await getAirportCoords(fromCode);
+                const toCoords = await getAirportCoords(toCode);
+
+                if (routeLayer) map.removeLayer(routeLayer);
+
+                L.marker(fromCoords).addTo(map).bindPopup(fromCode).openPopup();
+                L.marker(toCoords).addTo(map).bindPopup(toCode);
+
+                routeLayer = L.polyline([fromCoords, toCoords], {color: 'red'}).addTo(map);
+
+                map.fitBounds(routeLayer.getBounds());
+            
+        }
+    </script>
+</body>
+</html>
