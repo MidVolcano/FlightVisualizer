@@ -1,6 +1,6 @@
 # **Flight Visualizer**
 
-Mini Full stack Spring Boot + Leaflet.js app that visualizes flight routes from airport CSV data.
+Full stack Spring Boot + Leaflet.js app that visualizes flight routes from airport CSV data.
 Currently Features: Tracking Airport Location and Visualizing the flight to get there.
 Currently In Development: The ability to put in a flights commercial flight number and visualize its flight path.
 
@@ -25,7 +25,6 @@ After Input:
 
 ## **Optimizations**
 - The source code is body readable and easily understood since most of the java code should be understood by anyone proficient in java.
-- Handles API limits by stopping the program early if it exceeds current funds in my OPENAI account and if there is an API error, it is printed to console.
 - A visual map representation to actually visualize the data.
 
 ## **Setup Instructions**
@@ -125,9 +124,9 @@ This project took me around 12 hours split among 4 days
 A simple **HTML + JavaScript** front end was chosen 
 
 The Website:
-- displays the reconciled medication
-- shows AI generated reasoning
-- maps the confidence scores using Chart.js to a pie chart 
+- displays the visual map representation
+- alows you to input two airport codes such as **JFK** and **PHX**
+- handles any errors relating to a faulty input
 
 ---
 
